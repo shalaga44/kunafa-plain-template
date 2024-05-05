@@ -1,4 +1,4 @@
-This is a Kotlin Multiplatform project targeting Web, Server.
+This is a Kotlin Multiplatform project targeting Web: Kotlin/Js and Server: JVM.
 
 * `/webApp` is for code that will be shared across your Js Multiplatform applications.
   It contains several subfolders:

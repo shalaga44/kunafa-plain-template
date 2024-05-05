@@ -37,6 +37,7 @@ kotlin {
         }
         val jsMain by getting {
             dependencies {
+                implementation(projects.shared)
                 implementation(libs.narbase.kunafa.core)
             }
         }
