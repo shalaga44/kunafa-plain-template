@@ -29,6 +29,11 @@ kotlin {
         binaries.executable()
     }
 
+    sourceSets.all {
+        languageSettings {
+            optIn("kotlin.js.ExperimentalJsExport")
+        }
+    }
     sourceSets {
         commonMain.dependencies {
             implementation(libs.narbase.kunafa.core)
@@ -41,6 +46,7 @@ kotlin {
             dependencies {
             }
         }
+
     }
 }
 
