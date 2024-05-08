@@ -41,6 +41,7 @@ dependencies {
 
     implementation(libs.ktor.server.jetty)
     implementation(libs.ktor.client.gson)
+    implementation(libs.ktor.client.apache)
     implementation(libs.ktor.server.double.receive)
     implementation(libs.logback.classic)
     implementation(libs.kotlinx.html.jvm)
