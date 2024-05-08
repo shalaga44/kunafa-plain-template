@@ -11,8 +11,8 @@ kotlin {
                 mainOutputFileName = "main.bundle.js"
                 sourceMaps = false
                 devServer = KotlinWebpackConfig.DevServer(
-                    open = false,
-                    port = 3000,
+                    open = true,
+                    port = 8080,
                     static = mutableListOf("${layout.buildDirectory.asFile.get()}/processedResources/js/main")
                 )
             }
