@@ -55,3 +55,8 @@ dependencies {
 
 
 }
+
+tasks.test {
+    environment["IS_TEST"] = true
+    useJUnitPlatform()
+}
