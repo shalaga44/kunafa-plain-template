@@ -31,9 +31,13 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            // put your Multiplatform dependencies here
+            implementation(libs.narbase.kunafa.core)
         }
         val jsMain by getting {
+            dependencies {
+            }
+        }
+        val jvmMain by getting {
             dependencies {
             }
         }
