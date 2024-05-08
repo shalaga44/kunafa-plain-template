@@ -39,10 +39,24 @@ kotlin {
             dependencies {
                 implementation(projects.shared)
                 implementation(libs.narbase.kunafa.core)
+
+                implementation(libs.kotlinx.coroutines.core.js)
+
+                implementation(npm("material-design-icons-iconfont", "5.0.1"))
+                implementation(npm("css-loader", "3.4.2"))
+                implementation(npm("style-loader", "1.1.3"))
+                implementation(npm("file-loader", "5.0.2"))
+                implementation(npm("typeface-open-sans", "0.0.75"))
+                implementation(npm("tippy.js", "4.3.4"))
+                implementation(npm("pikaday", "1.8.0"))
+                implementation(npm("flatpickr", "4.6.3"))
+
+
             }
         }
     }
 }
+
 
 
 

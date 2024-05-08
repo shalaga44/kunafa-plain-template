@@ -18,7 +18,10 @@ reflections = "0.10.2"
 
 junit-jupiter = "5.9.0"
 assertj = "3.23.1"
-mockk="1.12.0"
+mockk = "1.12.0"
+
+coroutines = "1.8.0"
+
 
 
 [libraries]
@@ -83,9 +86,12 @@ junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.re
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit-jupiter" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-jupiter" }
-mockk = { module = "io.mockk:mockk",  version.ref = "mockk" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
 
+
+kotlinx-coroutines-core-js = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-js", version.ref = "coroutines" }
+kotlin-test-js = { module = "org.jetbrains.kotlin:kotlin-test-js", version.ref = "kotlin" }
 
 
 
