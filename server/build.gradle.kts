@@ -1,3 +1,11 @@
+import org.gradle.internal.IoActions
+import org.gradle.internal.util.PropertiesUtils
+import java.io.BufferedOutputStream
+import java.io.FileOutputStream
+import java.io.OutputStream
+import java.nio.charset.Charset
+import java.util.*
+
 plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.ktor)
@@ -6,6 +14,8 @@ plugins {
 
 group = "com.narbase.narcore"
 version = "1.0.0"
+val versionNumber = 1
+
 application {
     mainClass.set("com.narbase.narcore.ApplicationKt")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=${extra["io.ktor.development"] ?: "false"}")
@@ -60,4 +70,25 @@ dependencies {
 tasks.test {
     environment["IS_TEST"] = true
     useJUnitPlatform()
+}
+application {
+    mainClass.set("com.narbase.narcore.main.MainKt")
+}
+tasks.register("createProperties") {
+    doLast {
+        val charset = Charset.forName("UTF-8")
+        val out: OutputStream = BufferedOutputStream(FileOutputStream("$buildDir/resources/main/version.properties"))
+        try {
+            val propertiesToWrite: Properties = Properties()
+            propertiesToWrite["versionName"] = project.version.toString()
+            propertiesToWrite["versionNumber"] = versionNumber.toString()
+            PropertiesUtils.store(propertiesToWrite, out, "Version and name of project", charset, System.lineSeparator())
+        } finally {
+            IoActions.closeQuietly(out)
+        }
+    }
+}
+
+tasks.processResources {
+    dependsOn("createProperties")
 }
