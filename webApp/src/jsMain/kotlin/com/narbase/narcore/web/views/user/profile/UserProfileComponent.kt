@@ -124,9 +124,6 @@ class UserProfileComponent : Component() {
                     editButtonView = editButton()
                 }
 
-                imageUploader {
-
-                }
                 verticalFiller(42.px)
 
                 profileViewHolder = verticalLayout {
