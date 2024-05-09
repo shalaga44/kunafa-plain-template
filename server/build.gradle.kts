@@ -13,7 +13,6 @@ plugins {
 }
 
 group = "com.narbase.narcore"
-version = "1.0.0"
 val versionNumber = 1
 
 application {
@@ -82,7 +81,13 @@ tasks.register("createProperties") {
             val propertiesToWrite: Properties = Properties()
             propertiesToWrite["versionName"] = project.version.toString()
             propertiesToWrite["versionNumber"] = versionNumber.toString()
-            PropertiesUtils.store(propertiesToWrite, out, "Version and name of project", charset, System.lineSeparator())
+            PropertiesUtils.store(
+                propertiesToWrite,
+                out,
+                "Version and name of project",
+                charset,
+                System.lineSeparator()
+            )
         } finally {
             IoActions.closeQuietly(out)
         }
@@ -91,4 +96,20 @@ tasks.register("createProperties") {
 
 tasks.processResources {
     dependsOn("createProperties")
+}
+
+tasks.jar {
+    manifest {
+        attributes("Main-Class" to "com.narbase.narcore.main.MainKt")
+        attributes("Class-Path" to ".")
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
+    from(configurations.compileClasspath.get().map {
+        if (it.isDirectory) it else zipTree(it)
+    })
+    from(configurations.runtimeClasspath.get().map {
+        if (it.isDirectory) it else zipTree(it)
+    })
 }

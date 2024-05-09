@@ -34,11 +34,21 @@ object JwtConf {
 val appConf: HoconApplicationConfig by lazy {
     println("Getting narcore.conf")
     var file = File("narcore.conf")
-    if (file.exists().not()) {
-        System.err.println("Config file does not exist")
-        println("Checking dev path")
-        file = File("../narcore.conf")
+    var isFileDoesNotExists = file.exists().not()
+    var counter = 0
+    val maxDepth = 5
+    while (isFileDoesNotExists && counter < maxDepth) {
+        val depthPath = "../".repeat(counter)
+        val path = "${depthPath}narcore.conf"
+        println("Attempts left ${maxDepth - counter}: Checking upper path: $path")
+        file = File(path)
+        isFileDoesNotExists = file.exists().not()
+        counter += 1
+        if (isFileDoesNotExists.not()){
+            println("File found at $path")
+        }
     }
+
     val conf = ConfigFactory.parseFile(file)
     HoconApplicationConfig(
         ConfigFactory.load(conf)

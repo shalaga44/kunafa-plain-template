@@ -15,7 +15,6 @@ import com.narbase.narcore.main.files.filesWithThumbnailsGenerator
 import com.narbase.narcore.main.properties.VersionProperties
 import com.narbase.narcore.main.provisioning.registerFirstAdmin
 import io.ktor.http.*
-import io.ktor.http.content.*
 import io.ktor.serialization.gson.*
 import io.ktor.server.application.*
 import io.ktor.server.config.*
@@ -23,12 +22,18 @@ import io.ktor.server.engine.*
 import io.ktor.server.http.content.*
 import io.ktor.server.jetty.*
 import io.ktor.server.plugins.*
+import io.ktor.server.plugins.callid.*
+import io.ktor.server.plugins.callloging.*
+import io.ktor.server.plugins.compression.*
 import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.doublereceive.*
+import io.ktor.server.plugins.forwardedheaders.*
+import io.ktor.server.plugins.partialcontent.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
-import io.ktor.websocket.*
 import kotlinx.coroutines.runBlocking
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -36,15 +41,6 @@ import org.slf4j.event.Level
 import java.io.File
 import java.text.DateFormat
 import java.time.Duration
-import io.ktor.server.plugins.cors.*
-import io.ktor.server.plugins.callloging.*
-import io.ktor.server.plugins.callid.*
-import io.ktor.server.plugins.forwardedheaders.*
-import io.ktor.server.request.*
-import io.ktor.server.plugins.compression.*
-import io.ktor.server.plugins.cors.routing.CORS
-import io.ktor.server.plugins.cors.routing.*
-import io.ktor.server.plugins.partialcontent.*
 
 /*
  * Copyright 2017-2020 Narbase technologies and contributors. Use of this source code is governed by the MIT License.
@@ -145,23 +141,19 @@ object Server {
             setupUserRoutes()
             setupCommonRoutes()
             createDirectoriesIfMissing("files", "web")
-            static("files") {
+
+            route("/files") {
                 filesWithThumbnailsGenerator("files")
             }
-            static("voiceNotes") {
-                files("files/voiceNotes")
-            }
-            static("public") {
-                files("web/public")
-            }
-            static("js") {
-                files("web/js")
-            }
-            static("fonts") {
-                files("web/fonts")
-            }
-            static("/") {
-                file("narcore-web.js", "web/narcore-web.js")
+            staticFiles("/public", File("web/public"))
+            staticFiles("/js", File("web/js"))
+            staticFiles("/fonts", File("web/fonts"))
+            singlePageApplication {
+                applicationRoute = "/"
+                filesPath = "web"
+                defaultPage = "index.html"
+                useResources = true
+                ignoreFiles { it.endsWith(".txt") }
             }
 
             get("/{path...}") {
