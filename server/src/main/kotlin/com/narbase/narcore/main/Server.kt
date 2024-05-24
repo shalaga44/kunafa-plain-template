@@ -7,6 +7,7 @@ import com.narbase.narcore.common.db.migrations.Migrations
 import com.narbase.narcore.common.db.migrations.initializeUserMigrations
 import com.narbase.narcore.common.exceptions.handleExceptions
 import com.narbase.narcore.common.setupCommonRoutes
+import com.narbase.narcore.deployment.LaunchConfig
 import com.narbase.narcore.deployment.appConf
 import com.narbase.narcore.domain.admin.setupAdminRoutes
 import com.narbase.narcore.domain.client.setupClientRoutes
@@ -37,7 +38,6 @@ import io.ktor.server.websocket.*
 import kotlinx.coroutines.runBlocking
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.slf4j.event.Level
 import java.io.File
 import java.text.DateFormat
 import java.time.Duration
@@ -65,6 +65,7 @@ object Server {
             applicationEngineEnvironment {
                 watchPaths = listOf("classes")
                 config = appConfig
+                developmentMode = LaunchConfig.developmentMode
                 module {
                     appModule()
                 }
@@ -99,7 +100,8 @@ object Server {
         install(DoubleReceive)
         install(CallId)
         install(CallLogging) {
-            level = Level.TRACE
+//            level = Level.TRACE
+//            this.level =org.slf4j.event.Level.INFO
             format { call ->
                 val userAgent = call.request.headers["User-Agent"]
                 val status = call.response.status()

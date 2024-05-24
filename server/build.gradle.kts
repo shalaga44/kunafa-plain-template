@@ -76,7 +76,11 @@ application {
 tasks.register("createProperties") {
     doLast {
         val charset = Charset.forName("UTF-8")
-        val out: OutputStream = BufferedOutputStream(FileOutputStream("$buildDir/resources/main/version.properties"))
+
+        val path = "${projects.server.dependencyProject.layout.buildDirectory.asFile.get()}/resources/main/version.properties"
+        File(path).parentFile.mkdirs()
+        val fileOutputStream = FileOutputStream(path)
+        val out: OutputStream = BufferedOutputStream(fileOutputStream)
         try {
             val propertiesToWrite: Properties = Properties()
             propertiesToWrite["versionName"] = project.version.toString()

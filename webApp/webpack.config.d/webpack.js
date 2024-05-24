@@ -1,3 +1,5 @@
+const webpack = require('webpack');
+
 config.resolve.modules.push("../../processedResources/js/main");
 config.resolve.conditionNames = ['import', 'require', 'default'];
 
@@ -17,6 +19,13 @@ config.performance = {
       return !assetFilename.endsWith('.js');
     },
 };
+
+// Add IgnorePlugin to ignore 'moment' module
+config.plugins = (config.plugins || []).concat([
+    new webpack.IgnorePlugin({
+        resourceRegExp: /^moment$/,
+    })
+]);
 
 
 config.output.publicPath = '/'
