@@ -52,6 +52,18 @@ kotlin {
                 implementation(npm("flatpickr", "4.6.3"))
 
 
+                //Down-- needed for jsonwebtoken/sign to work
+                implementation(npm("jsonwebtoken", "8.5.1"))
+                implementation(npm("buffer", "6.0.3"))
+                implementation(npm("crypto-browserify", "3.12.0"))
+                implementation(npm("stream-browserify", "3.0.0"))
+                implementation(npm("util", "0.12.5"))
+                implementation(npm("vm-browserify", "1.1.2"))
+                implementation(npm("events", "3.3.0"))
+                implementation(npm("process", "0.11.10"))
+                //Up-- needed for jsonwebtoken/sign to work
+
+
             }
         }
     }
